@@ -46,10 +46,12 @@ PixelSet BoardSolver::propagate(Board &g) {
 			g.set(i, k, c);
 			if (i <= BOARD_SIZE) {
 				lines.push(g.getLine(k + 25));
-				updated.insert(i * 100 + k);
+				int p = i * 100 + k;
+				updated.insert(p);
 			} else {
+				int p = k * 100 + (i - 25);
 				lines.push(g.getLine(k));
-				updated.insert((k - 25) * 100 + i);
+				updated.insert(p);
 			}
 		}
 		counter++;
