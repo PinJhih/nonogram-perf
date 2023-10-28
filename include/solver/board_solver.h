@@ -9,14 +9,16 @@ using namespace std;
 class BoardSolver {
 	Description *clues;
 
+	void fp1(Board &g);
+	PixelSet propagate(Board &g);
+
 	PixelSet probe(Board &g, int x, int y);
 	PixelSet probeG(Board &gp, int x, int y, Byte c);
 
    public:
 	BoardSolver(Description *d);
 
-	PixelSet propagate(Board &g);
-	void fp1(Board &g);
+	void solve(Board &g);
 };
 
 #endif

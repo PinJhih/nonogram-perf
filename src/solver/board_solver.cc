@@ -147,3 +147,39 @@ void BoardSolver::fp1(Board &g) {
 			g.setState(INCOMPLETE);
 	}
 }
+
+void pick(Board &g, int &a, int &b) {
+	for (int i = 1; i <= BOARD_SIZE; i++) {
+		for (int j = 1; j <= BOARD_SIZE; j++) {
+			if (!g.isPainted(i, j)) {
+				a = i, b = j;
+				return;
+			}
+		}
+	}
+}
+
+void BoardSolver::solve(Board &g) {
+	fp1(g);
+	if (g.getState() == SOLVED || g.getState() == CONFLICT)
+		return;
+
+	int i, j;
+	pick(g, i, j);
+
+	Board gp0 = Board(g);
+	gp0.set(i, j, 0);
+	solve(gp0);
+	if (gp0.getState() == SOLVED) {
+		g = Board(gp0);
+		return;
+	}
+
+	Board gp1 = Board(g);
+	gp1.set(i, j, 1);
+	solve(gp1);
+	if (gp1.getState() == SOLVED) {
+		g = Board(gp1);
+		return;
+	}
+}
