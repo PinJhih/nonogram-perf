@@ -10,18 +10,17 @@ class Board {
 	short countPainted = 0;
 
    public:
-	Board() ;
-	Board(const Board& h) ;
+	Board();
+	Board(const Board& h);
 
 	Byte get(int i, int j);
 	Board& set(int i, int j, Byte c);
-	Line getLine(int i) ;
-
-	State getState() ;
-	void setState(State s);
-	bool isPainted(int i, int j) ;
-
+	Line getLine(int i);
 	void print();
+
+	State getState();
+	void setState(State s);
+	bool isPainted(int i, int j);
 };
 
 #endif
