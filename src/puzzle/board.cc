@@ -59,3 +59,10 @@ void Board::setState(State s) {
 bool Board::isPainted(int i, int j) {
 	return painted[i - 1][j - 1];
 }
+
+void Board::print() {
+	for (int i = 0; i < BOARD_SIZE; i++) {
+		g[i].print();
+	}
+	printf("\n");
+}

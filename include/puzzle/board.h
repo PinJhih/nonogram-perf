@@ -20,6 +20,8 @@ class Board {
 	State getState() ;
 	void setState(State s);
 	bool isPainted(int i, int j) ;
+
+	void print();
 };
 
 #endif

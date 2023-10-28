@@ -44,7 +44,7 @@ void Line::print() {
 		else
 			buffer[i * 2] = s[i] + '0';
 	}
-	printf("%s\n", Line::buffer);
+	printf("%s", Line::buffer);
 }
 
 Byte Line::getIndex() {
