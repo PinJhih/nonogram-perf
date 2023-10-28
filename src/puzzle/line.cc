@@ -6,6 +6,10 @@ typedef long long LL;
 
 char Line::buffer[64];
 
+Line::Line() {
+	Line(1);
+}
+
 Line::Line(int i) {
 	index = i;
 	for (int i = 0; i < BOARD_SIZE; i++) {
@@ -41,4 +45,8 @@ void Line::print() {
 			buffer[i * 2] = s[i] + '0';
 	}
 	printf("%s\n", Line::buffer);
+}
+
+Byte Line::getIndex() {
+	return index;
 }

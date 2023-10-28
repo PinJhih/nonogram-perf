@@ -9,12 +9,14 @@ class Line {
 	static char buffer[64];
 
    public:
+	Line();
 	Line(int i);
 	Line(const Line& l);
 
 	Byte get(int i);
 	void set(int i, Byte c);
 	void print();
+	Byte getIndex();
 };
 
 #endif
