@@ -58,3 +58,92 @@ PixelSet BoardSolver::propagate(Board &g) {
 	}
 	return updated;
 }
+
+PixelSet BoardSolver::probeG(Board &gp, int x, int y, Byte c) {
+	gp.set(x, y, c);
+	return propagate(gp);
+}
+
+PixelSet BoardSolver::probe(Board &g, int x, int y) {
+	Board gp0 = Board(g);
+	Board gp1 = Board(g);
+	PixelSet set0 = probeG(gp0, x, y, 0);
+	PixelSet set1 = probeG(gp1, x, y, 1);
+
+	if (gp0.getState() == CONFLICT && gp1.getState() == CONFLICT) {
+		g.setState(CONFLICT);
+		return PixelSet();
+	}
+
+	PixelSet pi;
+	Board *src;
+	if (gp0.getState() == CONFLICT) {
+		src = &gp1;
+		pi = set1;
+		pi.insert(x * 100 + y);
+	} else if (gp1.getState() == CONFLICT) {
+		src = &gp0;
+		pi = set0;
+		pi.insert(x * 100 + y);
+	} else {
+		for (auto p : set0) {
+			int a = p / 100, b = p % 100;
+			if (gp0.get(a, b) == gp1.get(a, b)) {
+				pi.insert(p);
+			}
+		}
+
+		for (auto p : set1) {
+			int a = p / 100, b = p % 100;
+			if (gp0.get(a, b) == gp1.get(a, b)) {
+				pi.insert(p);
+			}
+		}
+		src = &gp0;
+	}
+
+	if (!pi.empty()) {
+		g.setState(PAINTED);
+		for (auto p : pi) {
+			int a = p / 100, b = p % 100;
+			g.set(a, b, src->get(a, b));
+		}
+	} else {
+		g.setState(INCOMPLETE);
+	}
+
+	return pi;
+}
+
+void BoardSolver::fp1(Board &g) {
+	while (true) {
+		PixelSet pi = propagate(g);
+		if (g.getState() == SOLVED || g.getState() == CONFLICT)
+			return;
+
+		for (int i = 1; i <= BOARD_SIZE; i++) {
+			for (int j = 1; j <= BOARD_SIZE; j++) {
+				if (g.get(i, j) != U)
+					continue;
+				if (pi.empty())
+					pi = probe(g, i, j);
+				else
+					probe(g, i, j);
+
+				if (g.getState() == SOLVED || g.getState() == CONFLICT)
+					return;
+				if (g.getState() == PAINTED)
+					break;
+			}
+
+			if (g.getState() == PAINTED)
+				break;
+		}
+
+		if (pi.empty())
+			break;
+
+		if (g.getState() == PAINTED)
+			g.setState(INCOMPLETE);
+	}
+}
