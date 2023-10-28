@@ -1,6 +1,6 @@
 INCdir=../../include
 FLAGS=-O2 -I$(INCdir)
-OBJ=line_solver.o
+OBJ=line_solver.o board_solver.o
 
 all: $(OBJ)
 
