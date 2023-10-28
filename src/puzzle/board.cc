@@ -25,17 +25,13 @@ Byte Board::get(int i, int j) {
 }
 
 Board& Board::set(int i, int j, Byte c) {
-	Byte a, b;
-	if (i <= 25) {
-		a = i - 1, b = j - 1;
-	} else {
-		a = j - 1, b = i - 25 - 1;
-	}
-
-	if (!painted[a][b]) {
+	if (i > 25)
+		return set(j, i - 25, c);
+	if (!painted[i - 1][j - 1]) {
 		g[i - 1].set(j, c);
-		g[j - 1].set(i, c);
-		painted[a][b] = true;
+		g[j + 24].set(i, c);
+
+		painted[i - 1][j - 1] = true;
 		countPainted++;
 
 		if (countPainted == BOARD_SIZE * BOARD_SIZE)
@@ -57,6 +53,8 @@ void Board::setState(State s) {
 }
 
 bool Board::isPainted(int i, int j) {
+	if (i > 25)
+		return painted[j - 1][i - 25 - 1];
 	return painted[i - 1][j - 1];
 }
 
