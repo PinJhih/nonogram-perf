@@ -15,7 +15,8 @@ Board::Board(const Board& h) {
 	for (int i = 0; i < BOARD_SIZE * 2; i++) {
 		g[i] = Line(h.g[i]);
 	}
-	memset(painted, 0, sizeof(bool) * BOARD_SIZE * BOARD_SIZE);
+	memcpy(painted, h.painted, sizeof(bool) * BOARD_SIZE * BOARD_SIZE);
+	countPainted = h.countPainted;
 }
 
 Byte Board::get(int i, int j) {
@@ -45,6 +46,8 @@ Line Board::getLine(int i) {
 }
 
 State Board::getState() {
+	if (countPainted == BOARD_SIZE * BOARD_SIZE)
+		state = SOLVED;
 	return state;
 }
 
