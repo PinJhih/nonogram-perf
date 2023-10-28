@@ -7,7 +7,7 @@ int readPuzzle(FILE* input, Description d[BOARD_SIZE * 2]) {
 	if (fscanf(input, "$%d\n", &t) == EOF)
 		return -1;
 
-	char buffer[32];
+	char buffer[64];
 	for (int i = BOARD_SIZE; i < 2 * BOARD_SIZE; i++) {
 		fgets(buffer, sizeof(buffer), input);
 		d[i] = Description(buffer);

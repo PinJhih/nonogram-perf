@@ -14,7 +14,7 @@ Description::Description(const char* str) {
 		if (str[i] == '\t' || str[i] == '\n') {
 			d[length] = num, num = 0;
 			length++;
-		} else {
+		} else if('0' <= str[i] && str[i] <= '9') {
 			num *= 10, num += str[i] - '0';
 		}
 	}
