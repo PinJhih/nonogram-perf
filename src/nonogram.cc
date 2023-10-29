@@ -44,6 +44,9 @@ int main(int argc, char* argv[]) {
 
 		clock_t start = clock();
 		solver.solve(g);
+		clock_t end = clock();
+		double runningTime = (double)(end - start) / CLOCKS_PER_SEC;
+
 		printf("Case %d: ", t);
 		switch (g.getState()) {
 			case INCOMPLETE:
@@ -57,9 +60,8 @@ int main(int argc, char* argv[]) {
 			default:
 				printf("Conflict!\n\n");
 		}
-
-		clock_t end = clock();
-		double runningTime = (double)(end - start) / CLOCKS_PER_SEC;
 		printf("Running Time: %.4f sec.\n\n", runningTime);
 	}
+
+	return 0;
 }
