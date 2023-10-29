@@ -4,8 +4,6 @@
 
 typedef long long LL;
 
-char Line::buffer[64];
-
 Line::Line() {
 	Line(1);
 }
@@ -14,10 +12,7 @@ Line::Line(int i) {
 	index = i;
 	for (int i = 0; i < BOARD_SIZE; i++) {
 		s[i] = U;
-		buffer[i * 2 + 1] = ' ';
 	}
-	buffer[49] = '\n';
-	buffer[50] = '\0';
 }
 
 Line::Line(const Line& l) {
@@ -38,13 +33,17 @@ void Line::set(int i, Byte c) {
 }
 
 void Line::print() {
+	static char buffer[] =
+		"U U U U U U U U U U U U U "
+		"U U U U U U U U U U U U\n";
+
 	for (int i = 0; i < 25; i++) {
 		if (s[i] == U)
 			buffer[i * 2] = 'U';
 		else
 			buffer[i * 2] = s[i] + '0';
 	}
-	printf("%s", Line::buffer);
+	printf("%s", buffer);
 }
 
 Byte Line::getIndex() {

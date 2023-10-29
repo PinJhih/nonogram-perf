@@ -6,7 +6,6 @@
 class Line {
 	Byte index;
 	Byte s[BOARD_SIZE];
-	static char buffer[64];
 
    public:
 	Line();
