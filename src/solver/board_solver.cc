@@ -141,6 +141,16 @@ void BoardSolver::fp1(Board &g) {
 	}
 }
 
+void expand(BoardSolver &solver, Board &g, int i, int j, Byte c) {
+	Board gp = Board(g);
+	gp.set(i, j, c);
+	solver.solve(gp);
+	if (gp.solved()) {
+		g = gp;
+		return;
+	}
+}
+
 void BoardSolver::solve(Board &g) {
 	fp1(g);
 	if (g.finished())
@@ -149,19 +159,8 @@ void BoardSolver::solve(Board &g) {
 	int i, j;
 	g.pickUnpainted(i, j);
 
-	Board gp0 = Board(g);
-	gp0.set(i, j, 0);
-	solve(gp0);
-	if (gp0.solved()) {
-		g = Board(gp0);
+	expand(*this, g, i, j, 0);
+	if (g.solved())
 		return;
-	}
-
-	Board gp1 = Board(g);
-	gp1.set(i, j, 1);
-	solve(gp1);
-	if (gp1.solved()) {
-		g = Board(gp1);
-		return;
-	}
+	expand(*this, g, i, j, 1);
 }

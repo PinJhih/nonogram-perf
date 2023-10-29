@@ -27,11 +27,7 @@ Board::Board() {
 }
 
 Board::Board(const Board& h) {
-	state = h.state;
-	unpainted = h.unpainted;
-	for (int i = 0; i < BOARD_SIZE * 2; i++) {
-		g[i] = Line(h.g[i]);
-	}
+	*this = h;
 }
 
 Byte Board::get(int i, int j) {
@@ -104,4 +100,13 @@ void Board::print() {
 	for (int i = 0; i < BOARD_SIZE; i++) {
 		g[i].print();
 	}
+}
+
+Board& Board::operator=(const Board& h) {
+	state = h.state;
+	unpainted = h.unpainted;
+	for (int i = 0; i < BOARD_SIZE * 2; i++) {
+		g[i] = Line(h.g[i]);
+	}
+	return *this;
 }

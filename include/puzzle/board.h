@@ -12,21 +12,23 @@ class Board {
 	Board();
 	Board(const Board& h);
 
+	void print();
 	Byte get(int i, int j);
 	Board& set(int i, int j, Byte c);
 	Line getLine(int i);
-	void print();
 
 	State getState();
 	void setState(State s);
 	bool finished();
 	bool conflict();
 	bool solved();
-
 	bool painted();
+
 	bool isPainted(int i, int j);
 	void pickUnpainted(int& i, int& j);
 	const PixelSet& unpaintedPixels();
+
+	Board& operator=(const Board& h);
 };
 
 #endif
