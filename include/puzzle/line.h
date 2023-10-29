@@ -5,17 +5,31 @@
 
 class Line {
 	Byte index;
-	Byte s[BOARD_SIZE];
+	long long bits;
 
    public:
 	Line();
 	Line(int i);
 	Line(const Line& l);
-
-	Byte get(int i);
-	void set(int i, Byte c);
 	void print();
-	Byte getIndex();
+
+	inline const Byte get(int i) {
+		return (bits >> (i * 2)) & 0b11;
+	}
+
+	inline void set(int i, Byte c) {
+		long long mask = get(i);
+		i <<= 1;
+		bits -= (mask << i);
+
+		mask = c;
+		mask <<= i;
+		bits += mask;
+	}
+
+	Byte getIndex() {
+		return index;
+	}
 };
 
 #endif

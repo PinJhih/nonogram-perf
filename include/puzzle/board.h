@@ -1,6 +1,9 @@
 #ifndef BOARD_H
 #define BOARD_H
 
+#include <unordered_set>
+typedef std::unordered_set<short> PixelSet;
+
 #include "puzzle/line.h"
 
 class Board {

@@ -2,34 +2,19 @@
 
 #include <cstdio>
 
-typedef long long LL;
-
 Line::Line() {
 	Line(1);
 }
 
 Line::Line(int i) {
 	index = i;
-	for (int i = 0; i < BOARD_SIZE; i++) {
-		s[i] = U;
-	}
+	bits = (1LL << 52) - 1;
+	bits -= 0b11;
 }
 
 Line::Line(const Line& l) {
+	bits = l.bits;
 	index = l.index;
-	for (int i = 0; i < BOARD_SIZE; i++) {
-		s[i] = l.s[i];
-	}
-}
-
-Byte Line::get(int i) {
-	if (i == 0)
-		return 0;
-	return s[i - 1];
-}
-
-void Line::set(int i, Byte c) {
-	s[i - 1] = c;
 }
 
 void Line::print() {
@@ -38,14 +23,10 @@ void Line::print() {
 		"U U U U U U U U U U U U\n";
 
 	for (int i = 0; i < 25; i++) {
-		if (s[i] == U)
+		if (get(i + 1) == U)
 			buffer[i * 2] = 'U';
 		else
-			buffer[i * 2] = s[i] + '0';
+			buffer[i * 2] = get(i + 1) + '0';
 	}
 	printf("%s", buffer);
-}
-
-Byte Line::getIndex() {
-	return index;
 }
