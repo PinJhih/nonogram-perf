@@ -121,41 +121,23 @@ void BoardSolver::fp1(Board &g) {
 		if (g.finished())
 			return;
 
-		for (int i = 1; i <= BOARD_SIZE; i++) {
-			for (int j = 1; j <= BOARD_SIZE; j++) {
-				if (g.get(i, j) != U)
-					continue;
-				if (pi.empty())
-					pi = probe(g, i, j);
-				else
-					probe(g, i, j);
+		for (auto p : g.unpaintedPixels()) {
+			int i = p / 100, j = p % 100;
+			if (pi.empty())
+				pi = probe(g, i, j);
+			else
+				probe(g, i, j);
 
-				if (g.finished())
-					return;
-				if (g.painted())
-					break;
-			}
-
+			if (g.finished())
+				return;
 			if (g.painted())
 				break;
 		}
 
 		if (pi.empty())
 			break;
-
 		if (g.painted())
 			g.setState(INCOMPLETE);
-	}
-}
-
-void pick(Board &g, int &a, int &b) {
-	for (int i = 1; i <= BOARD_SIZE; i++) {
-		for (int j = 1; j <= BOARD_SIZE; j++) {
-			if (!g.isPainted(i, j)) {
-				a = i, b = j;
-				return;
-			}
-		}
 	}
 }
 
@@ -165,7 +147,7 @@ void BoardSolver::solve(Board &g) {
 		return;
 
 	int i, j;
-	pick(g, i, j);
+	g.pickUnpainted(i, j);
 
 	Board gp0 = Board(g);
 	gp0.set(i, j, 0);

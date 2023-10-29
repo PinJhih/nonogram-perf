@@ -1,22 +1,37 @@
 #include "puzzle/board.h"
 
+#include <cstdio>
 #include <cstring>
+
+using namespace std;
+
+short hashIndex(int i, int j) {
+	return i * 100 + j;
+}
+
+void toIndex(short p, int& i, int& j) {
+	i = p / 100, j = p % 100;
+}
 
 Board::Board() {
 	state = INCOMPLETE;
 	for (int i = 0; i < BOARD_SIZE * 2; i++) {
 		g[i] = Line(i + 1);
 	}
-	memset(colored, 0, sizeof(bool) * BOARD_SIZE * BOARD_SIZE);
+
+	for (int i = 1; i <= BOARD_SIZE; i++) {
+		for (int j = 1; j <= BOARD_SIZE; j++) {
+			unpainted.insert(hashIndex(i, j));
+		}
+	}
 }
 
 Board::Board(const Board& h) {
 	state = h.state;
+	unpainted = h.unpainted;
 	for (int i = 0; i < BOARD_SIZE * 2; i++) {
 		g[i] = Line(h.g[i]);
 	}
-	memcpy(colored, h.colored, sizeof(bool) * BOARD_SIZE * BOARD_SIZE);
-	countPainted = h.countPainted;
 }
 
 Byte Board::get(int i, int j) {
@@ -26,16 +41,16 @@ Byte Board::get(int i, int j) {
 }
 
 Board& Board::set(int i, int j, Byte c) {
-	if (i > 25)
-		return set(j, i - 25, c);
-	if (!colored[i - 1][j - 1]) {
+	if (i > BOARD_SIZE)
+		return set(j, i - BOARD_SIZE, c);
+
+	short p = hashIndex(i, j);
+	if (unpainted.count(p) != 0) {
 		g[i - 1].set(j, c);
 		g[j + 24].set(i, c);
 
-		colored[i - 1][j - 1] = true;
-		countPainted++;
-
-		if (countPainted == BOARD_SIZE * BOARD_SIZE)
+		unpainted.erase(p);
+		if (unpainted.empty())
 			state = SOLVED;
 	}
 	return *this;
@@ -46,8 +61,6 @@ Line Board::getLine(int i) {
 }
 
 State Board::getState() {
-	if (countPainted == BOARD_SIZE * BOARD_SIZE)
-		state = SOLVED;
 	return state;
 }
 
@@ -72,14 +85,23 @@ bool Board::painted() {
 }
 
 bool Board::isPainted(int i, int j) {
-	if (i > 25)
-		return colored[j - 1][i - 25 - 1];
-	return colored[i - 1][j - 1];
+	if (i > BOARD_SIZE)
+		return isPainted(j, i - BOARD_SIZE);
+	short p = hashIndex(i, j);
+	return unpainted.count(p) == 0;
+}
+
+void Board::pickUnpainted(int& i, int& j) {
+	short p = *(unpainted.begin());
+	toIndex(p, i, j);
+}
+
+const PixelSet& Board::unpaintedPixels() {
+	return unpainted;
 }
 
 void Board::print() {
 	for (int i = 0; i < BOARD_SIZE; i++) {
 		g[i].print();
 	}
-	printf("\n");
 }

@@ -6,8 +6,7 @@
 class Board {
 	Line g[BOARD_SIZE * 2];
 	State state;
-	bool colored[BOARD_SIZE][BOARD_SIZE];
-	short countPainted = 0;
+	PixelSet unpainted;
 
    public:
 	Board();
@@ -23,8 +22,11 @@ class Board {
 	bool finished();
 	bool conflict();
 	bool solved();
+
 	bool painted();
 	bool isPainted(int i, int j);
+	void pickUnpainted(int& i, int& j);
+	const PixelSet& unpaintedPixels();
 };
 
 #endif
