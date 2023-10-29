@@ -7,7 +7,7 @@ Board::Board() {
 	for (int i = 0; i < BOARD_SIZE * 2; i++) {
 		g[i] = Line(i + 1);
 	}
-	memset(painted, 0, sizeof(bool) * BOARD_SIZE * BOARD_SIZE);
+	memset(colored, 0, sizeof(bool) * BOARD_SIZE * BOARD_SIZE);
 }
 
 Board::Board(const Board& h) {
@@ -15,7 +15,7 @@ Board::Board(const Board& h) {
 	for (int i = 0; i < BOARD_SIZE * 2; i++) {
 		g[i] = Line(h.g[i]);
 	}
-	memcpy(painted, h.painted, sizeof(bool) * BOARD_SIZE * BOARD_SIZE);
+	memcpy(colored, h.colored, sizeof(bool) * BOARD_SIZE * BOARD_SIZE);
 	countPainted = h.countPainted;
 }
 
@@ -28,11 +28,11 @@ Byte Board::get(int i, int j) {
 Board& Board::set(int i, int j, Byte c) {
 	if (i > 25)
 		return set(j, i - 25, c);
-	if (!painted[i - 1][j - 1]) {
+	if (!colored[i - 1][j - 1]) {
 		g[i - 1].set(j, c);
 		g[j + 24].set(i, c);
 
-		painted[i - 1][j - 1] = true;
+		colored[i - 1][j - 1] = true;
 		countPainted++;
 
 		if (countPainted == BOARD_SIZE * BOARD_SIZE)
@@ -55,10 +55,26 @@ void Board::setState(State s) {
 	state = s;
 }
 
+bool Board::finished() {
+	return state == CONFLICT || state == SOLVED;
+}
+
+bool Board::conflict() {
+	return state == CONFLICT;
+}
+
+bool Board::solved() {
+	return state == SOLVED;
+}
+
+bool Board::painted() {
+	return state == PAINTED;
+}
+
 bool Board::isPainted(int i, int j) {
 	if (i > 25)
-		return painted[j - 1][i - 25 - 1];
-	return painted[i - 1][j - 1];
+		return colored[j - 1][i - 25 - 1];
+	return colored[i - 1][j - 1];
 }
 
 void Board::print() {

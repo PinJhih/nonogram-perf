@@ -6,7 +6,7 @@
 class Board {
 	Line g[BOARD_SIZE * 2];
 	State state;
-	bool painted[BOARD_SIZE][BOARD_SIZE];
+	bool colored[BOARD_SIZE][BOARD_SIZE];
 	short countPainted = 0;
 
    public:
@@ -20,6 +20,10 @@ class Board {
 
 	State getState();
 	void setState(State s);
+	bool finished();
+	bool conflict();
+	bool solved();
+	bool painted();
 	bool isPainted(int i, int j);
 };
 
