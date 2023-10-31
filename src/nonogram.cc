@@ -34,6 +34,7 @@ int main(int argc, char* argv[]) {
 
 	FILE* file = fopen(path, "r");
 	while (true) {
+		clock_t start = clock();
 		Description d[BOARD_SIZE * 2];
 		int t = readPuzzle(file, d);
 		if (t == -1)
@@ -41,27 +42,24 @@ int main(int argc, char* argv[]) {
 
 		Board g = Board();
 		BoardSolver solver = BoardSolver(d);
-
-		clock_t start = clock();
 		solver.solve(g);
-		clock_t end = clock();
-		double runningTime = (double)(end - start) / CLOCKS_PER_SEC;
 
 		printf("Case %d: ", t);
 		switch (g.getState()) {
 			case INCOMPLETE:
 				printf("Incomplete...\n");
-				g.print();
 				break;
 			case SOLVED:
 				printf("Solved.\n");
-				g.print();
 				break;
 			default:
-				printf("Conflict!\n\n");
+				printf("Conflict!\n");
 		}
-		printf("Running Time: %.4f sec.\n\n", runningTime);
-	}
+		g.print();
 
+		clock_t end = clock();
+		double runningTime = (double)(end - start) / CLOCKS_PER_SEC;
+		printf("Running Time: %.4f sec.\n", runningTime);
+	}
 	return 0;
 }

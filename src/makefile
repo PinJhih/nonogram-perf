@@ -9,6 +9,7 @@ all: nonogram
 nonogram: $(SUBdir)
 	mkdir -p ../bin
 	g++ nonogram.cc */*.o $(FLAGS) -o $(BIN)/nonogram
+	g++ checker.cc puzzle/description.o $(FLAGS) -o $(BIN)/checker
 
 $(SUBdir):
 	$(MAKE) -C $@
