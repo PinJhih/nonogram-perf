@@ -122,7 +122,7 @@ void BoardSolver::fp1(Board &g) {
 			return;
 
 		for (auto p : g.unpaintedPixels()) {
-			int i = p / 100, j = p % 100;
+			int i = p.first / 100, j = p.first % 100;
 			if (pi.empty())
 				pi = probe(g, i, j);
 			else
