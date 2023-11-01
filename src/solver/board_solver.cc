@@ -30,13 +30,13 @@ PixelSet BoardSolver::propagate(Board &g) {
 		//! check if fixable
 		Description d = clues[i - 1];
 		LineSolver solver = LineSolver(s, d);
-		if (not solver.fix(BOARD_SIZE, d.size())) {
+		if (not solver.fix(BOARD_SIZE, d.size(), d.cost())) {
 			g.setState(CONFLICT);
 			break;
 		}
 
 		//* paint the line
-		solver.paint(BOARD_SIZE, d.size());
+		solver.paint(BOARD_SIZE, d.size(), d.cost());
 		for (int k = 1; k <= BOARD_SIZE; k++) {
 			//* collect updated pixels
 			Byte c = s.get(k);

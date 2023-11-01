@@ -6,6 +6,7 @@
 class Description {
 	Byte d[D_LEN];
 	Byte length;
+	Byte sum;
 
    public:
 	Description();
@@ -13,8 +14,17 @@ class Description {
 
 	void print();
 
-	const Byte size();
-	const Byte operator[](int i);
+	inline const Byte size() {
+		return length;
+	}
+
+	inline const Byte operator[](int i) {
+		return d[i - 1];
+	}
+
+	inline const Byte cost() {
+		return sum;
+	}
 };
 
 #endif
