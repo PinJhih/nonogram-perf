@@ -5,23 +5,22 @@
 #include "puzzle/line.h"
 
 class LineSolver {
-	Line& s;
 	Description& d;
 
-	bool fix0(int i, int j, Byte remain);
-	bool fix1(int i, int j, Byte remain);
-	bool matchSigma(int i, int j);
+	bool fix0(Line& s, int i, int j, Byte remain);
+	bool fix1(Line& s, int i, int j, Byte remain);
+	bool matchSigma(Line& s, int i, int j);
 
-	void paintP(int i, int j, Byte remain);
-	void paint0(int i, int j, Byte remain);
-	void paint1(int i, int j, Byte remain);
+	void paintP(Line& s, int i, int j, Byte remain);
+	void paint0(Line& s, int i, int j, Byte remain);
+	void paint1(Line& s, int i, int j, Byte remain);
 	static void merge(Line& s, Line& t, int i);
 
    public:
-	LineSolver(Line& line, Description& clue) : s{line}, d{clue} {}
+	LineSolver(Description& clue) : d{clue} {}
 
-	void paint(int i, int j, Byte remain);
-	bool fix(int i, int j, Byte remain);
+	void paint(Line& s, int i, int j, Byte remain);
+	bool fix(Line& s, int i, int j, Byte remain);
 };
 
 #endif

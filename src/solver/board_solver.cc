@@ -20,23 +20,21 @@ PixelSet BoardSolver::propagate(Board &g) {
 	}
 
 	//* iteration
-	int counter = 0;
 	while (!lines.empty()) {
 		//* retrieve a line
-		Line s = lines.front();
+		Line &s = lines.front();
 		int i = s.getIndex();
-		lines.pop();
 
 		//! check if fixable
-		Description d = clues[i - 1];
-		LineSolver solver = LineSolver(s, d);
-		if (not solver.fix(BOARD_SIZE, d.size(), d.cost())) {
+		Description &d = clues[i - 1];
+		LineSolver solver = LineSolver(d);
+		if (not solver.fix(s, BOARD_SIZE, d.size(), d.cost())) {
 			g.setState(CONFLICT);
 			break;
 		}
 
 		//* paint the line
-		solver.paint(BOARD_SIZE, d.size(), d.cost());
+		solver.paint(s, BOARD_SIZE, d.size(), d.cost());
 		for (int k = 1; k <= BOARD_SIZE; k++) {
 			//* collect updated pixels
 			Byte c = s.get(k);
@@ -54,7 +52,7 @@ PixelSet BoardSolver::propagate(Board &g) {
 				updated.insert(p);
 			}
 		}
-		counter++;
+		lines.pop();
 	}
 	return updated;
 }
