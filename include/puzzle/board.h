@@ -8,6 +8,8 @@ typedef std::unordered_set<short> PixelSet;
 #include "puzzle/line.h"
 
 class Board {
+	friend class BoardSolver;
+
 	Line g[BOARD_SIZE * 2];
 	State state;
 	PixelSet unpainted;

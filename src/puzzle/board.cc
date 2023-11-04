@@ -33,8 +33,6 @@ Board::Board() {
 
 Board::Board(const Board& h) {
 	*this = h;
-	memcpy(paintedInRow, h.paintedInRow, sizeof(Byte) * BOARD_SIZE);
-	memcpy(paintedInCol, h.paintedInCol, sizeof(Byte) * BOARD_SIZE);
 }
 
 Board& Board::set(int i, int j, Byte c) {
@@ -90,8 +88,8 @@ void Board::print() {
 Board& Board::operator=(const Board& h) {
 	state = h.state;
 	unpainted = h.unpainted;
-	for (int i = 0; i < BOARD_SIZE * 2; i++) {
-		g[i] = Line(h.g[i]);
-	}
+	memcpy(g, h.g, sizeof(Line) * BOARD_SIZE * 2);
+	memcpy(paintedInRow, h.paintedInRow, sizeof(Byte) * BOARD_SIZE);
+	memcpy(paintedInCol, h.paintedInCol, sizeof(Byte) * BOARD_SIZE);
 	return *this;
 }

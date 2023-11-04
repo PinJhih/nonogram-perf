@@ -14,6 +14,7 @@ class BoardSolver {
 
 	PixelSet probe(Board &g, int x, int y);
 	PixelSet probeG(Board &gp, int x, int y, Byte c);
+	void pickPixel(Board &g, int &i, int &j);
 
    public:
 	BoardSolver(Description *d);

@@ -1,5 +1,6 @@
 #include "solver/board_solver.h"
 
+#include <cstdio>
 #include <cstring>
 #include <queue>
 
@@ -149,13 +150,27 @@ void expand(BoardSolver &solver, Board &g, int i, int j, Byte c) {
 	}
 }
 
+void BoardSolver::pickPixel(Board &g, int &i, int &j) {
+	int maxM = -1;
+	int x, y;
+	for (auto p : g.unpainted) {
+		x = p / 100, y = p % 100;
+
+		int m = g.paintedInRow[x] + g.paintedInCol[y];
+		if (m > maxM) {
+			i = x, j = y;
+			maxM = m;
+		}
+	}
+}
+
 void BoardSolver::solve(Board &g) {
 	fp1(g);
 	if (g.finished())
 		return;
 
 	int i, j;
-	g.pickUnpainted(i, j);
+	pickPixel(g, i, j);
 
 	expand(*this, g, i, j, 0);
 	if (g.solved())
