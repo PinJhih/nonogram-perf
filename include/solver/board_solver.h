@@ -12,9 +12,9 @@ class BoardSolver {
 	void fp1(Board &g);
 	PixelSet propagate(Board &g);
 
-	int probe(Board &g, int x, int y);
-	PixelSet probeG(Board &gp, int x, int y, Byte c);
-	void pickPixel(Board &g, int &i, int &j);
+	int probe(Board &g, Byte x, Byte y);
+	PixelSet probeG(Board &gp, Byte x, Byte y, Byte c);
+	void pickPixel(Board &g, Byte &i, Byte &j);
 
    public:
 	BoardSolver(Description *d);

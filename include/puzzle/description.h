@@ -18,7 +18,7 @@ class Description {
 		return length;
 	}
 
-	inline const Byte operator[](int i) {
+	inline const Byte operator[](Byte i) {
 		return d[i - 1];
 	}
 

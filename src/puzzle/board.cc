@@ -7,22 +7,22 @@
 
 using namespace std;
 
-short hashIndex(int i, int j) {
+inline short hashIndex(Byte i, Byte j) {
 	return i * 100 + j;
 }
 
-void toIndex(short p, int& i, int& j) {
+inline void toIndex(short p, Byte& i, Byte& j) {
 	i = p / 100, j = p % 100;
 }
 
 Board::Board() {
 	state = INCOMPLETE;
-	for (int i = 0; i < BOARD_SIZE * 2; i++) {
+	for (Byte i = 0; i < BOARD_SIZE * 2; i++) {
 		g[i] = Line(i + 1);
 	}
 
-	for (int i = 1; i <= BOARD_SIZE; i++) {
-		for (int j = 1; j <= BOARD_SIZE; j++) {
+	for (Byte i = 1; i <= BOARD_SIZE; i++) {
+		for (Byte j = 1; j <= BOARD_SIZE; j++) {
 			unpainted.insert(hashIndex(i, j));
 		}
 	}
@@ -35,7 +35,7 @@ Board::Board(const Board& h) {
 	*this = h;
 }
 
-Board& Board::set(int i, int j, Byte c) {
+Board& Board::set(Byte i, Byte j, Byte c) {
 	if (i > BOARD_SIZE)
 		return set(j, i - BOARD_SIZE, c);
 
@@ -52,14 +52,14 @@ Board& Board::set(int i, int j, Byte c) {
 	return *this;
 }
 
-bool Board::isPainted(int i, int j) {
+bool Board::isPainted(Byte i, Byte j) {
 	if (i > BOARD_SIZE)
 		return isPainted(j, i - BOARD_SIZE);
 	short p = hashIndex(i, j);
 	return unpainted.count(p) == 0;
 }
 
-void Board::pickUnpainted(int& i, int& j) {
+void Board::pickUnpainted(Byte& i, Byte& j) {
 	short p = *(unpainted.begin());
 	toIndex(p, i, j);
 }
@@ -67,7 +67,7 @@ void Board::pickUnpainted(int& i, int& j) {
 const vector<pair<short, Byte>> Board::unpaintedPixels() {
 	vector<pair<short, Byte>> pixels;
 	for (short p : unpainted) {
-		int i, j;
+		Byte i, j;
 		toIndex(p, i, j);
 		pixels.push_back({p, paintedInRow[i] + paintedInCol[j]});
 	}
@@ -80,7 +80,7 @@ const vector<pair<short, Byte>> Board::unpaintedPixels() {
 }
 
 void Board::print() {
-	for (int i = 0; i < BOARD_SIZE; i++) {
+	for (Byte i = 0; i < BOARD_SIZE; i++) {
 		g[i].print();
 	}
 }

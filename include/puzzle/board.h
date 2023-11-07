@@ -20,15 +20,15 @@ class Board {
 	Board(const Board& h);
 
 	void print();
-	Board& set(int i, int j, Byte c);
+	Board& set(Byte i, Byte j, Byte c);
 
-	inline Byte get(int i, int j) {
+	inline Byte get(Byte i, Byte j) {
 		if (i == 0 || j == 0)
 			return 0;
 		return g[i - 1].get(j);
 	}
 
-	inline Line getLine(int i) {
+	inline Line getLine(Byte i) {
 		return Line(g[i - 1]);
 	}
 
@@ -56,8 +56,8 @@ class Board {
 		return state == PAINTED;
 	}
 
-	bool isPainted(int i, int j);
-	void pickUnpainted(int& i, int& j);
+	bool isPainted(Byte i, Byte j);
+	void pickUnpainted(Byte& i, Byte& j);
 	const std::vector<std::pair<short, Byte>> unpaintedPixels();
 
 	Board& operator=(const Board& h);

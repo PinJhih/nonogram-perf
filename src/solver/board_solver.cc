@@ -16,7 +16,7 @@ PixelSet BoardSolver::propagate(Board &g) {
 	//* init set-PI, list-G
 	PixelSet updated;
 	queue<Line> lines;
-	for (int i = 1; i <= BOARD_SIZE * 2; i++) {
+	for (Byte i = 1; i <= BOARD_SIZE * 2; i++) {
 		lines.push(g.getLine(i));
 	}
 
@@ -24,7 +24,7 @@ PixelSet BoardSolver::propagate(Board &g) {
 	while (!lines.empty()) {
 		//* retrieve a line
 		Line &s = lines.front();
-		int i = s.getIndex();
+		Byte i = s.getIndex();
 
 		//! check if fixable
 		Description &d = clues[i - 1];
@@ -36,7 +36,7 @@ PixelSet BoardSolver::propagate(Board &g) {
 
 		//* paint the line
 		solver.paint(s, BOARD_SIZE, d.size(), d.cost());
-		for (int k = 1; k <= BOARD_SIZE; k++) {
+		for (Byte k = 1; k <= BOARD_SIZE; k++) {
 			//* collect updated pixels
 			Byte c = s.get(k);
 			if (c == U || g.isPainted(i, k))
@@ -44,11 +44,11 @@ PixelSet BoardSolver::propagate(Board &g) {
 
 			g.set(i, k, c);
 			if (i <= BOARD_SIZE) {
+				short p = i * 100 + k;
 				lines.push(g.getLine(k + 25));
-				int p = i * 100 + k;
 				updated.insert(p);
 			} else {
-				int p = k * 100 + (i - 25);
+				short p = k * 100 + (i - 25);
 				lines.push(g.getLine(k));
 				updated.insert(p);
 			}
@@ -58,12 +58,12 @@ PixelSet BoardSolver::propagate(Board &g) {
 	return updated;
 }
 
-PixelSet BoardSolver::probeG(Board &gp, int x, int y, Byte c) {
+PixelSet BoardSolver::probeG(Board &gp, Byte x, Byte y, Byte c) {
 	gp.set(x, y, c);
 	return propagate(gp);
 }
 
-int BoardSolver::probe(Board &g, int x, int y) {
+int BoardSolver::probe(Board &g, Byte x, Byte y) {
 	Board gp0 = Board(g);
 	Board gp1 = Board(g);
 	PixelSet pi0 = probeG(gp0, x, y, 0);
@@ -120,7 +120,7 @@ void BoardSolver::fp1(Board &g) {
 			return;
 
 		for (auto p : g.unpaintedPixels()) {
-			int i = p.first / 100, j = p.first % 100;
+			Byte i = p.first / 100, j = p.first % 100;
 			numUpdated += probe(g, i, j);
 
 			if (g.finished())
@@ -136,7 +136,7 @@ void BoardSolver::fp1(Board &g) {
 	}
 }
 
-void expand(BoardSolver &solver, Board &g, int i, int j, Byte c) {
+void expand(BoardSolver &solver, Board &g, Byte i, Byte j, Byte c) {
 	Board gp = Board(g);
 	gp.set(i, j, c);
 	solver.solve(gp);
@@ -146,9 +146,9 @@ void expand(BoardSolver &solver, Board &g, int i, int j, Byte c) {
 	}
 }
 
-void BoardSolver::pickPixel(Board &g, int &i, int &j) {
-	int maxM = -1;
-	int x, y;
+void BoardSolver::pickPixel(Board &g, Byte &i, Byte &j) {
+	Byte maxM = -1;
+	Byte x, y;
 	for (auto p : g.unpainted) {
 		x = p / 100, y = p % 100;
 
@@ -165,7 +165,7 @@ void BoardSolver::solve(Board &g) {
 	if (g.finished())
 		return;
 
-	int i, j;
+	Byte i, j;
 	pickPixel(g, i, j);
 
 	expand(*this, g, i, j, 0);

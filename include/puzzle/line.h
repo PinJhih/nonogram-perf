@@ -13,11 +13,11 @@ class Line {
 	Line(const Line& l);
 	void print();
 
-	inline const Byte get(int i) {
+	inline const Byte get(Byte i) {
 		return (bits >> (i << 1)) & 0b11;
 	}
 
-	inline void set(int i, Byte c) {
+	inline void set(Byte i, Byte c) {
 		long long mask = 0b11;
 		i <<= 1;
 		mask <<= i;

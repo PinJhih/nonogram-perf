@@ -12,7 +12,7 @@ Description::Description(const char* str) {
 	length = 0;
 
 	Byte num = 0;
-	for (int i = 0; str[i] != '\0'; i++) {
+	for (Byte i = 0; str[i] != '\0'; i++) {
 		if (str[i] == '\t' || str[i] == '\n') {
 			sum += num;
 			d[length] = num, num = 0;
@@ -32,7 +32,7 @@ Description::Description(const char* str) {
 
 void Description::print() {
 	printf("(%2d %2d):", length, sum);
-	for (int i = 0; i < length; i++) {
+	for (Byte i = 0; i < length; i++) {
 		printf(" %2d", d[i]);
 	}
 	printf("\n");

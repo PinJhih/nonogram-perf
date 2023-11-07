@@ -22,7 +22,7 @@ void Line::print() {
 		"U U U U U U U U U U U U U "
 		"U U U U U U U U U U U U\n";
 
-	for (int i = 0; i < 25; i++) {
+	for (Byte i = 0; i < 25; i++) {
 		Byte c = get(i + 1);
 		if (c == U)
 			buffer[i * 2] = 'U';
