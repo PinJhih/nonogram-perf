@@ -14,17 +14,18 @@ class Line {
 	void print();
 
 	inline const Byte get(int i) {
-		return (bits >> (i * 2)) & 0b11;
+		return (bits >> (i << 1)) & 0b11;
 	}
 
 	inline void set(int i, Byte c) {
-		long long mask = get(i);
+		long long mask = 0b11;
 		i <<= 1;
-		bits -= (mask << i);
+		mask <<= i;
+		bits &= ~mask;
 
 		mask = c;
 		mask <<= i;
-		bits += mask;
+		bits |= mask;
 	}
 
 	Byte getIndex() {

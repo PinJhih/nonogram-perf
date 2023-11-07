@@ -8,8 +8,8 @@ Line::Line() {
 
 Line::Line(int i) {
 	index = i;
-	bits = (1LL << 52) - 1;
-	bits -= 0b11;
+	bits = (1LL << 50) - 1;
+	bits <<= 2;
 }
 
 Line::Line(const Line& l) {
@@ -23,10 +23,11 @@ void Line::print() {
 		"U U U U U U U U U U U U\n";
 
 	for (int i = 0; i < 25; i++) {
-		if (get(i + 1) == U)
+		Byte c = get(i + 1);
+		if (c == U)
 			buffer[i * 2] = 'U';
 		else
-			buffer[i * 2] = get(i + 1) + '0';
+			buffer[i * 2] = c + '0';
 	}
 	printf("%s", buffer);
 }
